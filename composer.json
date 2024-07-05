@@ -1,0 +1,31 @@
+{
+    "name": "kingbes/threads",
+    "description": "php Thread composer package",
+    "keywords": [
+        "Thread",
+        "PHP",
+        "composer package",
+        "FFI"
+    ],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "kingbes",
+            "email": "1164601554@qq.com"
+        }
+    ],
+    "require": {
+        "PHP": ">=8.1.0",
+        "ext-ffi": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "KingBes\\thread\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}
