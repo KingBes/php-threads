@@ -7,7 +7,6 @@ use Exception;
 class Thread
 {
     protected \FFI $ffi;
-    protected $thread;
 
     public function __construct(
         protected string $libraryFile = ""
@@ -20,30 +19,26 @@ class Thread
         $depot = $this->os_path();
 
         $this->ffi = \FFI::cdef($header, $depot);
-
-        $this->thread = $this->ffi->create();
     }
 
-    /**
-     * 安放函数 function
-     *
-     * @param Closure $fn 函数
-     * @return self
-     */
-    public function emplace(\Closure $fn): self
-    {
-        $this->ffi->emplace($this->thread, $fn);
-        return $this;
-    }
 
     /**
-     * 启动线程 function
+     * 线程数组 function
      *
+     * @param array $arr
      * @return void
      */
-    public function start(): void
+    public function arr(array $arr): void
     {
-        $this->ffi->start($this->thread);
+        $data = \FFI::new('void(*[' . count($arr) . '])()');
+        foreach ($arr as $k => $v) {
+            if (is_callable($v)) {
+                $data[$k] = $v;
+            } else {
+                throw new Exception("The element must be a function");
+            }
+        }
+        $this->ffi->threads_arr($data, count($arr));
     }
 
     /**
